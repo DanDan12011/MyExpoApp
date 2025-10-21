@@ -234,14 +234,14 @@ export default function App() {
       {isNoteModalVisible && (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          className="absolute bottom-0 left-0 right-0 bg-background"
+          className="absolute bottom-0 left-0 right-0 bg-background border-t-2 border-button-outline"
         >
           <View className="px-4 py-4">
             {/* Header with close button */}
             <View className="flex-row justify-end items-center mb-4">
               <TouchableOpacity
                 onPress={() => setIsNoteModalVisible(false)}
-                className="w-8 h-8 rounded-full items-center justify-center bg-button-outline"
+                className="w-8 h-8 rounded-full items-center justify-center bg-button-outline  "
               >
                 <FontAwesomeIcon icon={faXmark} size={16} color="black" />
               </TouchableOpacity>
