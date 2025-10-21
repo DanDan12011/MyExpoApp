@@ -241,9 +241,9 @@ export default function App() {
             <View className="flex-row justify-end items-center mb-4">
               <TouchableOpacity
                 onPress={() => setIsNoteModalVisible(false)}
-                className="w-8 h-8 rounded-full items-center justify-center bg-button-outline  "
+                className="w-8 h-8 rounded-full items-center justify-center   "
               >
-                <FontAwesomeIcon icon={faXmark} size={16} color="black" />
+                <FontAwesomeIcon icon={faXmark} size={20} color="white" />
               </TouchableOpacity>
             </View>
 
@@ -264,7 +264,7 @@ export default function App() {
             {/* Post Button */}
             <View className="flex-row justify-end">
               <TouchableOpacity
-                className="bg-green-500 rounded-lg px-4 py-2"
+                className="bg-button-outline rounded-lg px-4 py-2"
                 onPress={() => {
                   // Handle post action here
                   console.log("Posting note:", noteText);
