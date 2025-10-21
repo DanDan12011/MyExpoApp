@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -17,11 +19,14 @@ import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import "./global.css";
 
 export default function App() {
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
+  const [isNoteModalVisible, setIsNoteModalVisible] = useState(false);
+  const [noteText, setNoteText] = useState("");
 
   const toggleFileSelection = (fileId: number) => {
     setSelectedFiles((prev) => {
@@ -208,7 +213,10 @@ export default function App() {
 
       {/* Bottom Navigation */}
       <View className=" px-6 py-4 flex-row justify-around mb-4">
-        <TouchableOpacity className="w-14 h-14 border-2 bg-button-outline border-button-outline rounded-full items-center justify-center">
+        <TouchableOpacity
+          className="w-14 h-14 border-2 bg-button-outline border-button-outline rounded-full items-center justify-center"
+          onPress={() => setIsNoteModalVisible(true)}
+        >
           <FontAwesomeIcon icon={faFileLines} size={20} color="black" />
         </TouchableOpacity>
         <TouchableOpacity className="w-14 h-14 border-2 bg-button-outline border-button-outline rounded-full items-center justify-center">
@@ -221,6 +229,57 @@ export default function App() {
           <FontAwesomeIcon icon={faCamera} size={20} color="black" />
         </TouchableOpacity>
       </View>
+
+      {/* Note Taking Input */}
+      {isNoteModalVisible && (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          className="absolute bottom-0 left-0 right-0 bg-background"
+        >
+          <View className="px-4 py-4">
+            {/* Header with close button */}
+            <View className="flex-row justify-end items-center mb-4">
+              <TouchableOpacity
+                onPress={() => setIsNoteModalVisible(false)}
+                className="w-8 h-8 rounded-full items-center justify-center bg-button-outline"
+              >
+                <FontAwesomeIcon icon={faXmark} size={16} color="black" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Text Input Area */}
+            <View className="bg-gray-600 rounded-lg px-4 py-3 mb-4">
+              <TextInput
+                placeholder="Type a new note..."
+                placeholderTextColor="#9CA3AF"
+                value={noteText}
+                onChangeText={setNoteText}
+                className="text-white text-base"
+                multiline
+                autoFocus
+                style={{ minHeight: 40, maxHeight: 120 }}
+              />
+            </View>
+
+            {/* Post Button */}
+            <View className="flex-row justify-end">
+              <TouchableOpacity
+                className="bg-green-500 rounded-lg px-4 py-2"
+                onPress={() => {
+                  // Handle post action here
+                  console.log("Posting note:", noteText);
+                  setIsNoteModalVisible(false);
+                  setNoteText("");
+                }}
+              >
+                <Text className="text-black font-semibold text-sm">
+                  Save Note
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      )}
     </SafeAreaView>
   );
 }
